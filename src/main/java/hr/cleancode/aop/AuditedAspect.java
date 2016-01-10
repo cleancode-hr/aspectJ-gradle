@@ -28,7 +28,11 @@ public class AuditedAspect {
 
     @Around("auditedPointcut(audited)")
     public Object logAround(ProceedingJoinPoint joinPoint, Audited audited) throws Throwable {
-        auditService.auditOperation(audited.group(), joinPoint.getSignature().getName());
-        return joinPoint.proceed();
+        auditService.auditOperation("BEGIN - " + audited.group(), joinPoint.getSignature().getName());
+        try {
+            return joinPoint.proceed();
+        } finally {
+            auditService.auditOperation("END - " + audited.group(), joinPoint.getSignature().getName());
+        }
     }
 }

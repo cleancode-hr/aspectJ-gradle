@@ -25,10 +25,11 @@ public class TimedAspect {
     @Around("timedPointcut(timed)")
     public Object logAround(ProceedingJoinPoint joinPoint, Timed timed) throws Throwable {
         long startTime = System.currentTimeMillis();
+        System.out.println("\n### BEGIN execution of " + joinPoint.getSignature().getName() + " ### \n");
         try {
             return joinPoint.proceed();
         } finally {
-            System.out.println("\n### execution of " + joinPoint.getSignature().getName() + " took " + String.valueOf(System.currentTimeMillis() - startTime) + " ms ### \n");
+            System.out.println("\n### END execution of " + joinPoint.getSignature().getName() + " took " + String.valueOf(System.currentTimeMillis() - startTime) + " ms ### \n");
         }
     }
 }
