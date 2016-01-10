@@ -2,6 +2,9 @@ package hr.cleancode.service;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of {@link AuditService}.
+ */
 @Service
 public class AuditServiceImpl implements AuditService {
 

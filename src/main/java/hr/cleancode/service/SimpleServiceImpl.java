@@ -4,6 +4,9 @@ import hr.cleancode.aop.Audited;
 import hr.cleancode.aop.Timed;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of {@link SimpleService}.
+ */
 @Service
 public class SimpleServiceImpl implements SimpleService {
 

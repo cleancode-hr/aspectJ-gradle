@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 
+/**
+ * Auditing aspect. Uses spring bean {@link AuditService} as an example
+ * of dependency injection into compiled aspect.
+ */
 @Aspect
 @Configurable
 public class AuditedAspect {

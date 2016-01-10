@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 
+/**
+ * Spring configuration.
+ */
 @ComponentScan(basePackages = "hr.cleancode")
 @EnableAspectJAutoProxy
 @EnableSpringConfigured
