@@ -1,0 +1,82 @@
+apply plugin: 'java'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.6"
+    }
+}
+
+configurations {
+    providedRuntime
+}
+
+project.ext {
+    aspectjVersion = '1.8.6'
+}
+
+repositories {
+    maven { url 'http://repo.spring.io/milestone' }
+    maven { url 'http://repo.spring.io/snapshot' }
+    maven { url 'https://repository.jboss.org/nexus/content/repositories/releases' }
+    maven { url 'https://oss.sonatype.org/content/repositories/releases' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'http://repo.maven.apache.org/maven2' }
+}
+
+group 'hr.cleancode'
+version = '0.1-SNAPSHOT'
+apply plugin: 'aspectj'
+
+dependencies {
+    compile(group: 'com.zaxxer', name: 'HikariCP', version: HikariCP_version) {
+        exclude(module: 'tools')
+    }
+    compile group: 'javax.transaction', name: 'javax.transaction-api', version: javax_transaction_version
+
+    compile group: 'org.hibernate', name: 'hibernate-core', version: hibernate_entitymanager_version
+    compile group: 'org.hibernate', name: 'hibernate-envers', version: hibernate_entitymanager_version
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernate_validator_version
+    compile group: 'mysql', name: 'mysql-connector-java', version: mysql_connector_java_version
+
+    compile(group: 'org.springframework', name: 'spring-aop', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-aspects', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-beans', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-core', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-context', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-context-support', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-expression', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-jdbc', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-orm', version: spring_version)
+    compile(group: 'org.springframework', name: 'spring-tx', version: spring_version)
+
+    aspectpath "org.springframework:spring-aspects:${spring_version}"
+
+    compile group: 'org.aspectj', name: 'aspectjrt', version: aspectj_version
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: aspectj_version
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: assertj_core_version
+    compile(group: 'org.springframework', name: 'spring-test', version: spring_version)
+}
+
+compileAspect {
+    xlint = 'warning'
+    maxmem = '512m'
+    additionalAjcArgs = ['debug': 'true', 'X': 'noInline', 'preserveAllLocals': '']
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'hr.cleancode.MyApplication'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
